@@ -1,0 +1,4 @@
+- AdverseOutcome:
+  - Disease:
+    - Cancer
+  - Drug

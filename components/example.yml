@@ -1,0 +1,11 @@
+- name: "adverse-outcome-1"
+  label: AdverseOutcome
+  priority: 1
+  type: token
+  pattern: |
+    # high morbidity
+    (?<! [lemma=low]) [${ aoTerms }] |
+    # poor prognosis, adverse outcome, etc.
+    [lemma=/^(poor)$/] [lemma=/^(outcome|outlook|prognosis)$/] |
+    # high risk of X
+    [tag=JJ & !lemma=low]? [lemma=/^(risk)$/] (of [tag=/^(JJ|NN)/]+)?
