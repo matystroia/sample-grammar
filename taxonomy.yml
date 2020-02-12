@@ -1,4 +1,5 @@
 - AdverseOutcome:
-  - Disease:
-    - Cancer
-  - Drug
+    - Disease:
+        - Cancer
+        - Child
+    - Drug
