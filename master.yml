@@ -13,35 +13,9 @@ vars:
     drugSuffixes: lemma=/(ib|pab|mab|zole)$/
 
 rules:
-    # An example of importing rules from another file.  
-    # This formulation of the path is relative to the current file.
-    - import: components/example.yml
-    # we should be able to import via a URL
-    - import: https://gist.githubusercontent.com/myedibleenso/3ac6ac98251c32ca6b822352516621df/raw/a861b5657de7922f67ecf70ff1a9f5294fdeefe3/example2.yml
-    - name: "disease-1"
-      label: Disease
-      priority: 2+
-      type: token
-      pattern: |
-        # leukopenia
-        [tag=/^(JJ|NN)/]*
-        (
-         # leukopenia
-         # give cancer rule precedence over this less general one
-         [tag=/^NN/ & lemma=/(pe)?[nm]ia$/ & !mention=Cancer] |
-         # arthritis, periodontitis, etc.
-         [tag=/^NN/ & lemma=/itis$/] |
-         # ex. Familial platelet disorder
-         [${ diseaseTerms }]
-        )
-        # should not be followed by suppressor, etc.
-        (?! [lemma=suppressor])
-    - name: "drug-1"
-      label: Drug
-      priority: 15
-      type: token
-      pattern: |
-        (
-         # ex. imatinib, erlotinib, pertuzimab, etc.
-         [tag=/^NN/ & ${ drugSuffixes }]
-        )
+  - name: "example"
+    label: Death
+    type: basic
+    pattern: |
+        (?<death> died) (?<prep> on)
+        
