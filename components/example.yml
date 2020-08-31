@@ -9,3 +9,4 @@
     [lemma=/^(poor)$/] [lemma=/^(outcome|outlook|prognosis)$/] |
     # high risk of X
     [tag=JJ & !lemma=low]? [lemma=/^(risk)$/] (of [tag=/^(JJ|NN)/]+)?
+    # test
