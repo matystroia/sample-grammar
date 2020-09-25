@@ -7,17 +7,43 @@ taxonomy:
   - Entity:
     - Family
     - BioProcess
+    - ModifiedBiochemicalEntity
   - TermOfInterest
 
 rules:
-  - name: "arabadopsis-example"
-    label: ArabidopsisEvent
+# find entities affecting bioprocesses in Arabidopsis
+#   - name: "bioprocess-example"
+#     label: ArabidopsisEvent
+#     type: event
+#     example: "In Arabidopsis, GmBZL2 promotes morphogenesis."
+#     pattern: |
+#       # interesting triggers: contains
+#       trigger = [tag=/V.*/ & !lemma=/have|be|should|can|could|may|might|must|should|will|would/]
+#       # assert the term of interest is present in this sentence
+#       context: ^Context = (>>|<<)+ [lemma=/[Aa]rabid.*/]
+#       subject: ^Entity = >nsubj [entity=/[BI]-Gene_or_gene_product/]+
+#       negation: ^NegationMarker? = >neg
+#       object: ^BioProcess = >dobj [entity=/[BI]-BioProcess/]+
+
+# # find phosphorylation events in the context of Arabidopsis
+  - name: "phosphorylation-syntax-verb"
+    label: Phosphorylation
     type: event
     pattern: |
-      # interesting triggers: contains
-      trigger = [tag=/V.*/]
-      # assert the term of interest is present in this sentence
-      context: ^Context = (>>|<<)+ [lemma=/[Aa]rabid.*/] # NOTE: /(?i)arabid.*/ fails.  Why?
-      subject: ^Entity = >nsubj [entity=/[BI].*/]+
-      negation: ^NegationMarker = >neg
-      object: ^Entity = >dobj [entity=/[BI].*/]+
+      trigger = [tag=/V.*/ & lemma=/phosphorylat.*/]
+      context: ^Context = (>>|<<)+ [lemma=/[Aa]rabid.*/]
+      theme: ^Entity = >dobj [entity=/[BI].*/]+
+      actor: ^Entity? = >nsubj [entity=/[BI].*/]+
+
+# # find mutants in the context of Arabidopsis
+#   - name: mutatedProtein
+#     label: ModifiedBiochemicalEntity
+#     type: event
+#     pattern: |
+#       trigger = [tag=/V.*/]
+#       context: ^Context = (>>|<<)+ [lemma=/[Aa]rabid.*/]
+#       mutant: ^ModifiedBiochemicalEntity = (>>|<<)+ 
+#         [entity="B-Gene_or_gene_product"] [entity="I-Gene_or_gene_product"]* 
+#         [lemma=/(mutant|mutation)/]? 
+#         [word=/[ACDEFGHIKLMNPQRSTVWY][0-9]+[ACDEFGHIKLMNPQRSTVWY]/] 
+#         [lemma=/(mutant|mutation)/]?
